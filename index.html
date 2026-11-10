@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f6efe6">
+<title>A Little Reminder For You ♡</title>
+<style>
+  :root{
+    --cream:#f6efe6; --paper:#fffaf4; --charcoal:#292626; --muted:#77706d;
+    --pink:#d96f91; --pink-deep:#b94d73; --pink-pale:#f8dce5; --line:#eadfd6;
+    --shadow:0 22px 65px rgba(49,35,36,.12);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; min-height:100vh; color:var(--charcoal); background:var(--cream);
+    font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,"Segoe UI",sans-serif;
+    overflow-x:hidden;
+  }
+  body:before, body:after{
+    content:""; position:fixed; width:340px; height:340px; border-radius:50%;
+    background:radial-gradient(circle,rgba(232,153,177,.18),rgba(232,153,177,0) 70%);
+    pointer-events:none; z-index:-1;
+  }
+  body:before{top:-130px;right:-120px} body:after{bottom:-150px;left:-120px}
+  .topbar{max-width:1120px;margin:auto;padding:26px 28px;display:flex;justify-content:space-between;align-items:center}
+  .brand{font-family:Georgia,serif;font-size:18px;font-weight:700;letter-spacing:.02em}
+  .brand span{color:var(--pink)}
+  .tiny-note{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+  main{width:min(100% - 36px,960px);margin:34px auto 70px}
+  .hero{text-align:center;margin:0 auto 32px;max-width:680px}
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;color:var(--pink-deep);font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:750}
+  .eyebrow:before,.eyebrow:after{content:"";width:24px;height:1px;background:#dfa1b4}
+  h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(42px,7vw,76px);line-height:.99;letter-spacing:-.045em;font-weight:500;margin:20px 0 16px}
+  h1 em{color:var(--pink);font-weight:500}
+  .intro{color:var(--muted);font-size:15px;line-height:1.8;max-width:470px;margin:0 auto}
+  .app{
+    background:var(--charcoal);border-radius:28px;padding:clamp(20px,4vw,38px);
+    box-shadow:var(--shadow);position:relative;overflow:hidden;isolation:isolate;
+  }
+  .app:before{content:"";position:absolute;inset:0;z-index:-1;opacity:.12;
+    background-image:radial-gradient(#f7cbd8 .7px,transparent .7px);background-size:17px 17px}
+  .app-head{display:flex;justify-content:space-between;align-items:center;gap:14px;color:#f9eee9}
+  .chat-label{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#e7b6c5;font-weight:700}
+  .status{font-size:11px;color:#c9bcb8;display:flex;align-items:center;gap:7px}
+  .status:before{content:"";width:7px;height:7px;border-radius:50%;background:#e99ab4;box-shadow:0 0 10px #e99ab4}
+  .chat-window{
+    min-height:300px;max-height:440px;overflow:auto;margin:26px 0 22px;padding:8px 4px 14px;
+    display:flex;flex-direction:column;gap:13px;scrollbar-width:thin;scrollbar-color:#76515e transparent;
+  }
+  .message{max-width:min(82%,520px);padding:15px 18px;border-radius:18px 18px 18px 5px;
+    background:#403a39;color:#fff8f3;font-size:15px;line-height:1.6;box-shadow:0 7px 20px #17141435;
+    animation:pop .38s cubic-bezier(.2,.8,.2,1) both;transform-origin:bottom left}
+  .message small{display:block;color:#e5a9bd;font-size:10px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:5px;font-weight:700}
+  .message.initial{background:#f8e8e9;color:#382d2e}
+  .message.initial small{color:var(--pink-deep)}
+  .message.new{background:#f5d9e2;color:#34282c;align-self:flex-end;border-radius:18px 18px 5px 18px;transform-origin:bottom right}
+  .message.new small{color:var(--pink-deep)}
+  @keyframes pop{from{opacity:0;transform:translateY(13px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+  .typing{display:flex;gap:5px;padding:13px 16px;background:#403a39;border-radius:18px;width:max-content}
+  .typing i{width:6px;height:6px;background:#e8a7bd;border-radius:50%;animation:bop .8s infinite alternate}
+  .typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+  @keyframes bop{to{transform:translateY(-5px);opacity:.55}}
+  .controls{border-top:1px solid #514746;padding-top:20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .progress{color:#c8bab5;font-size:12px}.progress strong{color:#f0b7c9;font-weight:700}
+  button{
+    border:0;cursor:pointer;font:inherit;transition:transform .2s,box-shadow .2s,background .2s;
+  }
+  button:focus-visible{outline:3px solid #f1a9c1;outline-offset:4px}
+  .reveal{
+    color:#35292d;background:#f0b4c7;border-radius:999px;padding:14px 22px;font-size:13px;font-weight:800;
+    box-shadow:0 8px 22px #08060635;display:flex;align-items:center;gap:10px
+  }
+  .reveal:hover{transform:translateY(-2px);background:#f7c9d7;box-shadow:0 12px 25px #08060650}
+  .reveal:active{transform:scale(.98)}
+  .reveal:disabled{opacity:.5;cursor:default;transform:none}
+  .reset{background:transparent;color:#d8c9c4;font-size:12px;text-decoration:underline;text-underline-offset:4px;padding:8px}
+  .below{text-align:center;margin:28px auto 0;color:var(--muted);font-family:Georgia,serif;font-style:italic;font-size:17px}
+  .below span{color:var(--pink);font-style:normal}
+  .footer{text-align:center;color:#9a8f89;font-size:11px;letter-spacing:.08em;margin-top:42px}
+  .heart{display:inline-block;color:var(--pink);animation:heartbeat 1.8s infinite}
+  @keyframes heartbeat{0%,100%{transform:scale(1)}12%{transform:scale(1.18)}24%{transform:scale(1)}}
+  .sprinkle{position:fixed;pointer-events:none;z-index:5;font-size:18px;animation:floataway 1.6s ease-out forwards}
+  @keyframes floataway{to{transform:translate(var(--x),-100px) rotate(35deg);opacity:0}}
+  @media(max-width:560px){
+    .topbar{padding:20px 18px}.tiny-note{font-size:9px}
+    main{margin-top:24px}.app{border-radius:22px;padding:19px}
+    .chat-window{min-height:320px;max-height:52vh}
+    .message{max-width:92%;font-size:14px;padding:13px 15px}
+    .controls{align-items:flex-start}.reveal{width:100%;justify-content:center;order:-1}
+  }
+  @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">little note<span>♡</span></div>
+  <div class="tiny-note">made with a little extra love</div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="eyebrow">just for you</div>
+    <h1>In case you<br>forgot, <em>my love.</em></h1>
+    <p class="intro">A tiny corner of the internet, made to remind you just how wonderful you are. Tap below — I have a few things to tell you. ♡</p>
+  </section>
+
+  <section class="app" aria-label="A collection of sweet messages">
+    <div class="app-head">
+      <div class="chat-label">♡ a message for you</div>
+      <div class="status">delivering compliments</div>
+    </div>
+    <div class="chat-window" id="chat" aria-live="polite" aria-relevant="additions">
+      <div class="message initial">
+        <small>your favourite person · now</small>
+        Hey, pretty girl. I made you a little something. There are 30 tiny reminders waiting here, because one compliment could never be enough. ♡
+      </div>
+      <div class="message initial">
+        <small>one important thing</small>
+        You don't have to do anything special to deserve kind words. You being you is already more than enough.
+      </div>
+    </div>
+    <div class="controls">
+      <div class="progress" id="progress"><strong>0 / 30</strong> little reminders opened</div>
+      <button class="reveal" id="reveal" type="button"><span>♡</span> Open a little compliment</button>
+      <button class="reset" id="reset" type="button">Start again ↺</button>
+    </div>
+  </section>
+
+  <p class="below">P.S. You're kind of my <span>favourite notification.</span> ♡</p>
+  <div class="footer">A SMALL WEBSITE FOR A VERY SPECIAL GIRL <span class="heart">♥</span></div>
+</main>
+
+<script>
+(() => {
+  const messages = [
+    "If being pretty was a full-time job, you'd be employee of the century. And yes, I'd be your biggest fan.",
+    "I hope you know your smile has the power to turn an ordinary day into a really good one.",
+    "You're genuinely one of the loveliest things this world has going on. Just thought you should know.",
+    "I was going to think of a clever compliment, but then I remembered you're you. Words are struggling.",
+    "You make butterflies seem like a very reasonable response to a notification.",
+    "Your laugh? Ten out of ten. Would happily find another reason to hear it.",
+    "Just a reminder that somebody out here thinks you're ridiculously, unfairly, unbelievably lovely.",
+    "You have this way of making everything feel a little softer. It's one of my favourite things about you.",
+    "If I could send you a little confidence boost, it would arrive with a note saying: have you seen yourself lately?!",
+    "You're not just pretty. You're thoughtful, funny, special, and so easy to adore.",
+    "I hope today is as sweet to you as you are to everyone around you.",
+    "Breaking news: local girl continues to be adorable. More at eleven. ♡",
+    "I could compliment you all day and still feel like I've left out a thousand things.",
+    "Your face deserves its own appreciation day. Actually, let's make that a national holiday.",
+    "I like you a lot. Like, smiling-at-my-phone-for-no-reason kind of a lot.",
+    "You are allowed to take up space, shine brightly, and be completely yourself. That's the best version of you.",
+    "Somehow you manage to be both my favourite distraction and my favourite thought.",
+    "If cuteness were measured in stars, the night sky would be taking notes from you.",
+    "I hope you catch yourself smiling today. You deserve a hundred little happy moments.",
+    "You make ordinary conversations feel like the best part of my day.",
+    "Respectfully, how are you this adorable? Is there a tutorial? Asking for scientific reasons.",
+    "I hope you never forget how much warmth, joy, and loveliness you bring with you.",
+    "You're the kind of person people write sweet things about. So here I am, proving it.",
+    "Even on your messy-hair, sleepy, not-feeling-it days, you're still wonderfully you. And that's lovely.",
+    "I wish I could put a little reminder on your mirror that says: look at you, doing amazing.",
+    "You deserve gentle days, genuine laughs, good surprises, and all the affection in the world.",
+    "I don't need a special occasion to remind you that you're someone worth celebrating.",
+    "Your eyes, your smile, your silly little ways — honestly, the whole package is rather impressive.",
+    "If I had to pick my favourite view, it would probably be you being happy.",
+    "And the final reminder: out of all the lovely people in the world, I'm really, really glad I get to know you. ♡"
+  ];
+
+  const chat = document.getElementById('chat');
+  const reveal = document.getElementById('reveal');
+  const reset = document.getElementById('reset');
+  const progress = document.getElementById('progress');
+  let index = 0;
+
+  function updateProgress(){
+    progress.innerHTML = `<strong>${index} / 30</strong> little reminders opened`;
+    if(index === messages.length){
+      reveal.innerHTML = '<span>♡</span> All 30 opened!';
+      reveal.disabled = true;
+    }
+  }
+
+  function sprinkle(){
+    const symbols = ['♡','✦','♥','✧'];
+    const rect = reveal.getBoundingClientRect();
+    for(let i=0;i<7;i++){
+      const el = document.createElement('span');
+      el.className = 'sprinkle';
+      el.textContent = symbols[Math.floor(Math.random()*symbols.length)];
+      el.style.left = (rect.left + rect.width/2 + (Math.random()-.5)*90) + 'px';
+      el.style.top = (rect.top + window.scrollY - 2) + 'px';
+      el.style.setProperty('--x', ((Math.random()-.5)*110) + 'px');
+      document.body.appendChild(el);
+      setTimeout(()=>el.remove(),1700);
+    }
+  }
+
+  reveal.addEventListener('click', () => {
+    if(index >= messages.length) return;
+    const bubble = document.createElement('div');
+    bubble.className = 'message new';
+    const number = String(index+1).padStart(2,'0');
+    bubble.innerHTML = `<small>little reminder ${number} · just for you</small>${messages[index]}`;
+    chat.appendChild(bubble);
+    index++;
+    updateProgress();
+    sprinkle();
+    chat.scrollTo({top:chat.scrollHeight,behavior:'smooth'});
+  });
+
+  reset.addEventListener('click', () => {
+    index = 0;
+    chat.innerHTML = `
+      <div class="message initial"><small>your favourite person · now</small>Hey, pretty girl. I made you a little something. There are 30 tiny reminders waiting here, because one compliment could never be enough. ♡</div>
+      <div class="message initial"><small>one important thing</small>You don't have to do anything special to deserve kind words. You being you is already more than enough.</div>`;
+    reveal.disabled = false;
+    reveal.innerHTML = '<span>♡</span> Open a little compliment';
+    updateProgress();
+    chat.scrollTo({top:0,behavior:'smooth'});
+  });
+
+  updateProgress();
+})();
+</script>
+</body>
+</html>
